@@ -1,0 +1,4 @@
+name: SolarCore
+version: '1.0.0'
+main: lab.solar.storm.core.SolarCore
+api-version: '1.21'
