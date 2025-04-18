@@ -64,12 +64,5 @@ public final class SolarCore extends SolarPlugin {
 3. Submit PRs to `dev` branch
 4. Include JUnit tests for new features
 
-## ![Plugin Icon](https://solarstormlabor.github.io/assets/branding/emodji/logo.png) Compatibility
-| Server | Version Support |
-|--------|-----------------|
-| Paper | 1.16.5 - 1.20.x |
-| Spigot | 1.18.2+ |
-| Purpur | 1.19.4+ |
-
 
 ![Footer](https://solarstormlabor.github.io/assets/branding/banner/footer.png)
