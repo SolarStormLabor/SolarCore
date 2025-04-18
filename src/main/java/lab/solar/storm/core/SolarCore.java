@@ -2,7 +2,6 @@ package lab.solar.storm.core;
 
 import lab.solar.storm.api.util.SolarPlugin;
 import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 
@@ -18,17 +17,22 @@ public final class SolarCore extends SolarPlugin {
     }
 
     @Override
-    public void loadConfigs() {
-
+    public boolean loadConfigs() {
+        return false;
     }
 
     @Override
-    public void registerCommands() {
-
+    public boolean registerCommands() {
+        return false;
     }
 
     @Override
-    public void registerListeners(PluginManager pluginManager) {
+    public boolean registerListeners(PluginManager pluginManager) {
+        return false;
+    }
 
+    @Override
+    public boolean registerGlobalWars() {
+        return false;
     }
 }

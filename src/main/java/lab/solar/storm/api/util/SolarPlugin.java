@@ -16,20 +16,24 @@ public abstract class SolarPlugin extends JavaPlugin {
 
     public static final String PREFIX = "§3§lSolar§b§lCore §8>§7";
     public static final String CONSOLE_PREFIX = "\u001B[0m[Solar][Core] \u001B[0m";
-    public static final String PLUGIN_FOLDER = "";
+    public static String PLUGIN_FOLDER;
 
-    String c0 = "\u001B[0m";
-    String c3 = "\u001B[36m";
-    String cb = "\u001B[96m";
-    String c8 = "\u001B[90m";
-    String c7 = "\u001B[37m";
-    String c6 = "\u001B[33m";
+    private final String DISABLED = "disabled";
+
+    private String c0 = "\u001B[0m";
+    private String c3 = "\u001B[36m";
+    private String cb = "\u001B[96m";
+    private String c8 = "\u001B[90m";
+    private String c7 = "\u001B[37m";
+    private String c6 = "\u001B[33m";
 
     @Override
     public void onEnable() {
         plugin = this;
         javaPlugin = this;
         instance = this;
+
+        PLUGIN_FOLDER = String.valueOf(this.getDataFolder());
 
         List<String> enableInfo = new ArrayList<>();
         enableInfo.add(solarLoadConfig());
@@ -55,6 +59,7 @@ public abstract class SolarPlugin extends JavaPlugin {
 
     private String solarLoadConfig(){
         try{
+            if (loadConfigs()) return DISABLED;
             return "\u001B[90mLoading configs...\u001B[0m";
         } catch (Exception e){
             return c6 + "Fail to load configs\n" + e;
@@ -64,6 +69,7 @@ public abstract class SolarPlugin extends JavaPlugin {
     private String solarRegisterListener(){
         PluginManager pluginManager = Bukkit.getPluginManager();
         try{
+            if (registerListeners(pluginManager)) return DISABLED;
             return "\u001B[90mLoading events...\u001B[0m";
         } catch (Exception e){
             return c6 + "Fail to load events\n" + e;
@@ -72,9 +78,19 @@ public abstract class SolarPlugin extends JavaPlugin {
 
     private String solarRegisterCommands(){
         try{
+            if (registerCommands()) return DISABLED;
             return "\u001B[90mLoading commands...\u001B[0m";
         } catch (Exception e){
             return c6 + "Fail to load commands\n" + e;
+        }
+    }
+
+    private String solarRegisterGlobalWars(){
+        try{
+            if (registerGlobalWars()) return DISABLED;
+            return "\u001B[90mRegister globals...\u001B[0m";
+        } catch (Exception e){
+            return c6 + "Fail to register globals\n" + e;
         }
     }
 
@@ -84,11 +100,13 @@ public abstract class SolarPlugin extends JavaPlugin {
 
     public abstract List<String> onShoutDown(List<String> stringList);
 
-    public abstract void loadConfigs();
+    public abstract boolean loadConfigs();
 
-    public abstract void registerCommands();
+    public abstract boolean registerCommands();
 
-    public abstract void registerListeners(PluginManager pluginManager);
+    public abstract boolean registerListeners(PluginManager pluginManager);
+
+    public abstract boolean registerGlobalWars();
 
     /** Enable Message */
 
@@ -99,6 +117,7 @@ public abstract class SolarPlugin extends JavaPlugin {
             SolarLogger.sendMessage(c3 + "  ___/ "+cb+" |___ " + c8 + "Running on Bukkit - "+cb+"Paper" + c0);
             SolarLogger.sendMessage(c3 + "       "+cb+"      " + c7 + "                         " + c0);
             for (String s  : list) {
+                if (!s.equals(DISABLED)) {};
                 SolarLogger.sendMessage( CONSOLE_PREFIX+s);
             }
             SolarLogger.sendMessage(CONSOLE_PREFIX +"Finish Loading [SolarCore]\u001B[0m");
