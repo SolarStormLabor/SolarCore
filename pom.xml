@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>lab.solar.storm</groupId>
-    <artifactId>solarcore</artifactId>
+    <artifactId>SolarCore</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>solarcore</name>
+    <name>SolarCore</name>
 
     <properties>
         <java.version>21</java.version>
@@ -59,14 +59,41 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>ley.org</id>
+            <url>https://leycm.github.io/repository/</url>
+        </repository>
     </repositories>
 
     <dependencies>
+
         <dependency>
             <groupId>io.papermc.paper</groupId>
             <artifactId>paper-api</artifactId>
             <version>1.21-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.ley</groupId>
+            <artifactId>yaml</artifactId>
+            <version>1.0.0 </version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.ley</groupId>
+            <artifactId>menu</artifactId>
+            <version>1.0.2</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.ley</groupId>
+            <artifactId>time</artifactId>
+            <version>1.0.1</version>
+            <scope>compile</scope>
+        </dependency>
+
     </dependencies>
 </project>

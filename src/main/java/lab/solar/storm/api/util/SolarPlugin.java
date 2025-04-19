@@ -1,10 +1,16 @@
 package lab.solar.storm.api.util;
 
 import lab.solar.storm.api.logger.SolarLogger;
+
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import org.ley.yaml.YamlFactory;
+import org.ley.menu.MenuBrowser;
+import org.ley.time.TimeMatrix;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +23,10 @@ public abstract class SolarPlugin extends JavaPlugin {
     public static final String PREFIX = "§3§lSolar§b§lCore §8>§7";
     public static final String CONSOLE_PREFIX = "\u001B[0m[Solar][Core] \u001B[0m";
     public static String PLUGIN_FOLDER;
+
+    private YamlFactory yamlFactory;
+    private MenuBrowser menuBrowser;
+    private TimeMatrix timeMatrix;
 
     private final String DISABLED = "disabled";
 
@@ -33,9 +43,14 @@ public abstract class SolarPlugin extends JavaPlugin {
         javaPlugin = this;
         instance = this;
 
+        this.yamlFactory = new YamlFactory(this);
+        this.menuBrowser = new MenuBrowser(this);
+        this.timeMatrix = new TimeMatrix(this);
+
         PLUGIN_FOLDER = String.valueOf(this.getDataFolder());
 
         List<String> enableInfo = new ArrayList<>();
+        enableInfo.add(solarRegisterGlobalWars());
         enableInfo.add(solarLoadConfig());
         enableInfo.add(solarRegisterListener());
         enableInfo.add(solarRegisterCommands());
@@ -44,6 +59,9 @@ public abstract class SolarPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
+
+        timeMatrix.stop();
+
         List<String> disableInfo = new ArrayList<>();
         disableInfo.add("");
         logEnableMessage(onShoutDown(disableInfo));
@@ -59,7 +77,7 @@ public abstract class SolarPlugin extends JavaPlugin {
 
     private String solarLoadConfig(){
         try{
-            if (loadConfigs()) return DISABLED;
+            if (!loadConfigs()) return DISABLED;
             return "\u001B[90mLoading configs...\u001B[0m";
         } catch (Exception e){
             return c6 + "Fail to load configs\n" + e;
@@ -69,7 +87,7 @@ public abstract class SolarPlugin extends JavaPlugin {
     private String solarRegisterListener(){
         PluginManager pluginManager = Bukkit.getPluginManager();
         try{
-            if (registerListeners(pluginManager)) return DISABLED;
+            if (!registerListeners(pluginManager)) return DISABLED;
             return "\u001B[90mLoading events...\u001B[0m";
         } catch (Exception e){
             return c6 + "Fail to load events\n" + e;
@@ -78,7 +96,7 @@ public abstract class SolarPlugin extends JavaPlugin {
 
     private String solarRegisterCommands(){
         try{
-            if (registerCommands()) return DISABLED;
+            if (!registerCommands()) return DISABLED;
             return "\u001B[90mLoading commands...\u001B[0m";
         } catch (Exception e){
             return c6 + "Fail to load commands\n" + e;
@@ -87,7 +105,7 @@ public abstract class SolarPlugin extends JavaPlugin {
 
     private String solarRegisterGlobalWars(){
         try{
-            if (registerGlobalWars()) return DISABLED;
+            if (!registerGlobalWars()) return DISABLED;
             return "\u001B[90mRegister globals...\u001B[0m";
         } catch (Exception e){
             return c6 + "Fail to register globals\n" + e;
